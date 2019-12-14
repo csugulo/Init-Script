@@ -185,11 +185,19 @@ init_debian(){
 }
 
 config(){
+
+    if [ -d "$HOME/.oh-my-zsh" ]; then
+        uninstall_oh_my_zsh
+    fi
+
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    mkdir $HOME/bin
     curl -Lo $HOME/.zshrc https://raw.githubusercontent.com/csugulo/Init-Script/master/.zshrc
     curl -Lo $HOME/.tmux.conf https://raw.githubusercontent.com/csugulo/Init-Script/master/.tmux.conf
     curl -Lo $HOME/.vimrc https://raw.githubusercontent.com/csugulo/Init-Script/master/.vimrc
+
+    if [ ! -d "$HOME/bin" ]; then
+        mkdir $HOME/bin
+    fi
 }
 
 init(){
