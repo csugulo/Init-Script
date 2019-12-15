@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop golang valgrind google-perftools libgoogle-perftools-dev libgtest-dev"
+COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop golang gdbserver valgrind google-perftools libgoogle-perftools-dev libgtest-dev"
 
 RASPBIAN_SOFTWARE_LIST="libopencv-dev python-opencv libboost-all-dev libeigen3-dev"
 
