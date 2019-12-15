@@ -4,7 +4,7 @@ The initialization and configuration bash script for Ubuntu/Debian/Darwin/Raspbi
 ## Download and Run
 
 ```bash
-wget https://raw.githubusercontent.com/csugulo/Init-Script/master/init.sh
+wget https://raw.githubusercontent.com/csugulo/Init-Script/master/init.sh -O init.sh
 bash init.sh
 
 # use TUNA package manager sources
