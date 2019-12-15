@@ -1,7 +1,12 @@
 #!/bin/bash
 
-COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop"
-RASPBIAN_SOFTWARE_LIST=""
+COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop valgrind google-perftools libgoogle-perftools-dev golang"
+
+RASPBIAN_SOFTWARE_LIST="libopencv-dev python-opencv libboost-all-dev libeigen3-dev"
+
+UBUNTU_SOFTWARE_LIST=""
+
+DEBIAN_SOFTWARE_LIST=""
 
 DATE=`date "+%Y%m%d%H%M%S"`
 
@@ -149,7 +154,7 @@ init_ubuntu(){
     log "apt update list of available packages"
     sudo apt update -y
     sudo apt upgrade -y
-    sudo apt install $COMMON_SOFTWARE_LIST $RASPBIAN_SOFTWARE_LIST -y
+    sudo apt install $COMMON_SOFTWARE_LIST $UBUNTU_SOFTWARE_LIST -y
 }
 
 debian_use_tuna_source(){
@@ -181,7 +186,7 @@ init_debian(){
     log "apt update list of available packages"
     sudo apt update -y
     sudo apt upgrade -y
-    sudo apt install $COMMON_SOFTWARE_LIST $RASPBIAN_SOFTWARE_LIST -y
+    sudo apt install $COMMON_SOFTWARE_LIST $DEBIAN_SOFTWARE_LIST -y
 }
 
 
