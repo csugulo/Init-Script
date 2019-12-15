@@ -184,16 +184,18 @@ init_debian(){
     sudo apt install $COMMON_SOFTWARE_LIST $RASPBIAN_SOFTWARE_LIST -y
 }
 
+
+
+init_darwin(){
+    return 0
+}
+
 config(){
 
-    if [ -d "$HOME/.oh-my-zsh" ]; then
-        uninstall_oh_my_zsh
-    fi
-
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    curl -Lo $HOME/.zshrc https://raw.githubusercontent.com/csugulo/Init-Script/master/.zshrc
-    curl -Lo $HOME/.tmux.conf https://raw.githubusercontent.com/csugulo/Init-Script/master/.tmux.conf
-    curl -Lo $HOME/.vimrc https://raw.githubusercontent.com/csugulo/Init-Script/master/.vimrc
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.zshrc -O $HOME/.zshrc
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.tmux.conf -O $HOME/.tmux.conf
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.vimrc -O $HOME/.vimrc
 
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
@@ -208,7 +210,7 @@ init(){
     elif [[ $OS == "Ubuntu"* ]]; then
         init_ubuntu
     elif [[ $OS == "Darwin"* ]]; then
-        err "Unsupported OS: $OS"
+        init_dawrin
     else
         err "Unsupported OS: $OS"
     fi
