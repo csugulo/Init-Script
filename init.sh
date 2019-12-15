@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop valgrind google-perftools libgoogle-perftools-dev golang"
+COMMON_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop golang valgrind google-perftools libgoogle-perftools-dev libgtest-dev"
 
 RASPBIAN_SOFTWARE_LIST="libopencv-dev python-opencv libboost-all-dev libeigen3-dev"
 
@@ -198,9 +198,9 @@ init_darwin(){
 config(){
 
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.zshrc -O $HOME/.zshrc
-    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.tmux.conf -O $HOME/.tmux.conf
-    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.vimrc -O $HOME/.vimrc
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.zshrc -O $HOME/.zshrc -nc
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.tmux.conf -O $HOME/.tmux.conf -nc
+    wget https://raw.githubusercontent.com/csugulo/Init-Script/master/.vimrc -O $HOME/.vimrc -nc
 
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
