@@ -4,7 +4,7 @@ The initialization and configuration bash script for Ubuntu/Debian/Darwin/Raspbi
 ## Download and Run
 
 ```bash
-git clone git@github.com:csugulo/Init-Script.git
+git clone https://github.com/csugulo/Init-Script.git
 cd Init-Script
 bash init.sh
 
