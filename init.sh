@@ -180,9 +180,9 @@ install_softwares(){
 
 copy_config(){
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    cp .zshrc $HOME/.zshrc
-    cp .tmux.conf $HOME/.tmux.conf
-    cp .vimrc $HOME/.vimrc
+    cp ./.zshrc $HOME/.zshrc
+    cp ./.tmux.conf $HOME/.tmux.conf
+    cp ./.vimrc $HOME/.vimrc
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
     fi
