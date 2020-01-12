@@ -32,9 +32,9 @@ err(){
 
 superuserdo(){
     if [ `whoami` == 'root' ];then
-        $1
+        $@
     else
-        sudo $1
+        sudo $@
     fi
 }
 
@@ -93,7 +93,7 @@ detect(){
         PACKAGE_MANAGER="apt"
         SOFTWARE_LIST="$SOFTWARE_LIST $UBUNTU_SOFTWARE_LIST"
     elif [[ $OS == "Darwin"* ]]; then
-        PACKAGE_MANAGER=brew
+        PACKAGE_MANAGER="brew"
         SOFTWARE_LIST="$SOFTWARE_LIST $DARWIN_SOFTWARE_LIST"
     else
         err "Unsupported OS: $OS"
@@ -174,7 +174,7 @@ use_tuna_source(){
 }
 
 install_softwares(){
-    superuserdo $PACKAGE_MANAGER update -y
+    superuserdo $PACKAGE_MANAGER update
     superuserdo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
 }
 
