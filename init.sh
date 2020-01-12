@@ -30,6 +30,14 @@ err(){
     exit 1
 }
 
+superuserdo(){
+    if [ `whoami` == 'root' ];then
+        $1
+    else
+        sudo $1
+    fi
+}
+
 parse_args(){
     for i in $@
     do
@@ -109,11 +117,11 @@ use_tuna_source(){
         fi
 
         log "$OS $VERSION $VERSION_NAME use TUNA source..."
-        sudo rm -f /etc/apt/sources.list
-        echo "deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ $VERSION_NAME main non-free contrib" | sudo tee -a /etc/apt/sources.list
-        echo "deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ $VERSION_NAME main non-free contrib" | sudo tee -a /etc/apt/sources.list
-        sudo rm -f /etc/apt/sources.list.d/raspi.list
-        echo "deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ $VERSION_NAME main ui" | sudo tee -a /etc/apt/sources.list.d/raspi.list
+        superuserdo rm -f /etc/apt/sources.list
+        echo "deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ $VERSION_NAME main non-free contrib" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ $VERSION_NAME main non-free contrib" | superuserdo tee -a /etc/apt/sources.list
+        superuserdo rm -f /etc/apt/sources.list.d/raspi.list
+        echo "deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ $VERSION_NAME main ui" | superuserdo tee -a /etc/apt/sources.list.d/raspi.list
     
     # Debian
     elif [[ $OS == "Debian"* ]]; then
@@ -130,11 +138,11 @@ use_tuna_source(){
         fi
 
         log "$OS $VERSION $VERSION_NAME use TUNA source..."
-        sudo rm -f /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME main contrib non-free" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME-updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME-backports main contrib non-free" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security $VERSION_NAME/updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
+        superuserdo rm -f /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME main contrib non-free" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME-updates main contrib non-free" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $VERSION_NAME-backports main contrib non-free" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security $VERSION_NAME/updates main contrib non-free" | superuserdo tee -a /etc/apt/sources.list
     
     # Ubuntu
     elif [[ $OS == "Ubuntu"* ]]; then
@@ -151,11 +159,11 @@ use_tuna_source(){
         fi
 
         log "$OS $VERSION $VERSION_NAME use TUNA source..."
-        sudo rm -f /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+        superuserdo rm -f /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME main restricted universe multiverse" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-updates main restricted universe multiverse" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-backports main restricted universe multiverse" | superuserdo tee -a /etc/apt/sources.list
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $VERSION_NAME-security main restricted universe multiverse" | superuserdo tee -a /etc/apt/sources.list
     
     # Darwin
     elif [[ $OS == "Darwin"* ]]; then
@@ -166,8 +174,8 @@ use_tuna_source(){
 }
 
 install_softwares(){
-    sudo $PACKAGE_MANAGER update -y
-    sudo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
+    superuserdo $PACKAGE_MANAGER update -y
+    superuserdo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
 }
 
 copy_config(){
@@ -181,19 +189,19 @@ copy_config(){
 }
 
 install_proxy(){
-    sudo $PACKAGE_MANAGER update -y
-    sudo $PACKAGE_MANAGER install proxychains shadowsocks
+    superuserdo $PACKAGE_MANAGER update -y
+    superuserdo $PACKAGE_MANAGER install proxychains shadowsocks
     if [[ $OS == "Darwin"* ]]; then
         brew update
         brew install shadowsocks-libev proxychains-ng
-        sudo cp ./shadowsocks/client.json /usr/local/etc/shadowsocks-libev.json
-        sudo cp ./proxychains.conf /usr/local/etc/proxychains.conf
+        superuserdo cp ./shadowsocks/client.json /usr/local/etc/shadowsocks-libev.json
+        superuserdo cp ./proxychains.conf /usr/local/etc/proxychains.conf
     else
-        sudo mkdir -p /etc/shadowsocks
-        sudo cp ./shadowsocks/client.json /etc/shadowsocks/client.json
-        sudo cp ./proxychains.conf /etc/proxychains.conf
-        sudo cp ./shadowsocks/shadowsocks.service /etc/systemd/system/shadowsocks.service
-        sudo systemctl enable /etc/systemd/system/shadowsocks.service
+        superuserdo mkdir -p /etc/shadowsocks
+        superuserdo cp ./shadowsocks/client.json /etc/shadowsocks/client.json
+        superuserdo cp ./proxychains.conf /etc/proxychains.conf
+        superuserdo cp ./shadowsocks/shadowsocks.service /etc/systemd/system/shadowsocks.service
+        superuserdo systemctl enable /etc/systemd/system/shadowsocks.service
     fi
 }
 
