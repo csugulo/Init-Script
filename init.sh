@@ -78,7 +78,7 @@ detect(){
 
     # detection architecture
     ARCHITECTURE=`uname -m`
-
+    log "Detecting Architecture:"
     log "OS:$OS"
     log "Version:$VERSION"
     log "Architecture:$ARCHITECTURE"
@@ -101,6 +101,7 @@ detect(){
 }
 
 use_tuna_source(){
+    log "$PACKAGE_MANAGER use tuna source."
     VERSION_NAME=
     # Raspbian
     if [[ $OS == "Raspbian"* ]]; then
@@ -174,12 +175,16 @@ use_tuna_source(){
 }
 
 install_softwares(){
+    log "Installing softwares."
     superuserdo $PACKAGE_MANAGER update
     superuserdo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
 }
 
 copy_config(){
+    log "Install Ohmyzsh."
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+    log "Coping config files."
     cp ./.zshrc $HOME/.zshrc
     cp ./.tmux.conf $HOME/.tmux.conf
     cp ./.vimrc $HOME/.vimrc
@@ -189,6 +194,7 @@ copy_config(){
 }
 
 install_proxy(){
+    log "Installing proxy softwares."
     superuserdo $PACKAGE_MANAGER update -y
     superuserdo $PACKAGE_MANAGER install proxychains shadowsocks
     if [[ $OS == "Darwin"* ]]; then
