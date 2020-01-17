@@ -17,6 +17,14 @@ err(){
     exit 1
 }
 
+superuserdo(){
+    if [ `whoami` == 'root' ];then
+        $@
+    else
+        sudo $@
+    fi
+}
+
 detect(){
     # detecting os
     if [ -f /etc/os-release ]; then
@@ -52,8 +60,8 @@ detect(){
 }
 
 disable_swap(){
-    sudo dphys-swapfile swapoff
-    sudo systemctl disable dphys-swapfile.service
+    superuserdo dphys-swapfile swapoff
+    superuserdo systemctl disable dphys-swapfile.service
 }
 
 overclock(){
@@ -66,22 +74,22 @@ overclock(){
         # split 16MB memory for GPU
         log "Minimize GPU memory..."
         if [[ $(cat /boot/config.txt | grep gpu_mem=16) != "gpu_mem=16" ]]; then
-            echo "gpu_mem=16" | sudo tee -a /boot/config.txt
+            echo "gpu_mem=16" | superuserdo tee -a /boot/config.txt
         fi
 
         # overclock to 1GHz
         log "Overclock to 1GHz..."
         if [[ $(cat /boot/config.txt | grep arm_freq=1000) != "arm_freq=1000" ]]; then
-            echo "arm_freq=1000" | sudo tee -a /boot/config.txt
+            echo "arm_freq=1000" | superuserdo tee -a /boot/config.txt
         fi
         if [[ $(cat /boot/config.txt | grep core_freq=450) != "core_freq=450" ]]; then
-            echo "core_freq=450" | sudo tee -a /boot/config.txt
+            echo "core_freq=450" | superuserdo tee -a /boot/config.txt
         fi
         if [[ $(cat /boot/config.txt | grep sdram_freq=450) != "sdram_freq=450" ]]; then
-            echo "sdram_freq=450" | sudo tee -a /boot/config.txt
+            echo "sdram_freq=450" | superuserdo tee -a /boot/config.txt
         fi
         if [[ $(cat /boot/config.txt | grep over_voltage=2) != "over_voltage=2" ]]; then
-            echo "over_voltage=2" | sudo tee -a /boot/config.txt
+            echo "over_voltage=2" | superuserdo tee -a /boot/config.txt
         fi
     else
         err "Unsupported Revision: $REVISION"

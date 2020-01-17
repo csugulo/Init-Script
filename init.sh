@@ -38,18 +38,6 @@ superuserdo(){
     fi
 }
 
-parse_args(){
-    for i in $@
-    do
-        if [ $i == use-tuna-source ];then
-            USE_TUNA_SOURCE=True
-        fi
-        if [ $i == install-proxy ];then
-            INSTALL_PROXY=True    
-        fi
-    done
-}
-
 detect(){
     # detecting os
     if [ -f /etc/os-release ]; then
@@ -98,6 +86,18 @@ detect(){
     else
         err "Unsupported OS: $OS"
     fi
+}
+
+parse_args(){
+    for i in $@
+    do
+        if [ $i == use-tuna-source ];then
+            USE_TUNA_SOURCE=True
+        fi
+        if [ $i == install-proxy ];then
+            INSTALL_PROXY=True    
+        fi
+    done
 }
 
 use_tuna_source(){
@@ -185,9 +185,9 @@ copy_config(){
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     log "Coping config files."
-    cp ./.zshrc $HOME/.zshrc
-    cp ./.tmux.conf $HOME/.tmux.conf
-    cp ./.vimrc $HOME/.vimrc
+    cp ./.zshrc $HOME/.zshrc -f
+    cp ./.tmux.conf $HOME/.tmux.conf -f
+    cp ./.vimrc $HOME/.vimrc -f
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
     fi
