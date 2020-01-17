@@ -74,17 +74,29 @@ detect(){
     fi
 }
 
-log "Using BBR."
-echo "net.core.default_qdisc=fq" | superuserdo tee -a /etc/sysctl.conf
-echo "net.ipv4.tcp_congestion_control=bbr" | superuserdo tee -a /etc/sysctl.conf
-sysctl -p
+use_bbr(){
+    log "Using BBR."
+    if [[ $(cat /etc/sysctl.conf | grep net.core.default_qdisc=fq) != "net.core.default_qdisc=fq" ]]; then
+        echo "net.core.default_qdisc=fq" | superuserdo tee -a /etc/sysctl.conf
+    fi
+    if [[ $(cat /etc/sysctl.conf | grep net.ipv4.tcp_congestion_control=bbr) != "net.ipv4.tcp_congestion_control=bbr" ]]; then
+        echo "net.ipv4.tcp_congestion_control=bbr" | superuserdo tee -a /etc/sysctl.conf
+    fi
+    sysctl -p
+}
 
-log "Installing shadowsocks."
-superuserdo $PACKAGE_MANAGER update
-superuserdo $PACKAGE_MANAGER install python-pip -y
-pip install git+https://github.com/shadowsocks/shadowsocks.git@master
+install_ssserver(){
+    log "Installing shadowsocks."
+    superuserdo $PACKAGE_MANAGER update
+    superuserdo $PACKAGE_MANAGER install python-pip -y
+    pip install git+https://github.com/shadowsocks/shadowsocks.git@master
 
-superuserdo mkdir -p /etc/shadowsocks
-superuserdo cp -p ./shadowsocks/server.json /etc/shadowsocks/server.json
-superuserdo ssserver -c /etc/shadowsocks/server.json -d start
+    superuserdo mkdir -p /etc/shadowsocks
+    superuserdo cp -p ./shadowsocks/server.json /etc/shadowsocks/server.json
+    superuserdo ssserver -c /etc/shadowsocks/server.json -d start
+}
+
+use_bbr
+install_ssserver
+
 
