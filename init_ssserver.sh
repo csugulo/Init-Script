@@ -87,6 +87,7 @@ use_bbr(){
 
 install_ssserver(){
     log "Installing shadowsocks."
+    log "$PACKAGE_MANAGER"
     superuserdo $PACKAGE_MANAGER update
     superuserdo $PACKAGE_MANAGER install python-pip -y
     pip install git+https://github.com/shadowsocks/shadowsocks.git@master
@@ -96,6 +97,7 @@ install_ssserver(){
     superuserdo ssserver -c /etc/shadowsocks/server.json -d start
 }
 
+detect
 use_bbr
 install_ssserver
 
