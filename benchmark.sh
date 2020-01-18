@@ -28,6 +28,7 @@ test_cpu(){
     end_tm=`date +%s%N`;
     use_tm=`echo $end_tm $start_tm | awk '{ print ($1 - $2) / 1000000000}'`
     log "Path tracing cost $use_tm s."
+    rm -f smallpt
 }
 
 test_bandwidth(){
