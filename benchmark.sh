@@ -44,11 +44,11 @@ test_disk_io(){
     log "Testing write with bs=4K."
     dd if=/dev/zero of=/tmp/test.img bs=4K count=262144 oflag=dsync
 
-    echo 3 | superuserdo tee /proc/sys/vm/drop_caches
-
     log "Testing read with bs=64M."
+    echo 3 | superuserdo tee /proc/sys/vm/drop_caches
     dd if=/tmp/test.img of=/dev/null bs=64M
     log "Testing read with bs=4K."
+    echo 3 | superuserdo tee /proc/sys/vm/drop_caches
     dd if=/tmp/test.img of=/dev/null bs=4K
 
     superuserdo rm -f /tmp/test.img
