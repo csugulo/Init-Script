@@ -2,7 +2,7 @@
 
 # Usage: bash init.sh [use-tuna-source] [install-proxy]
 
-SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop"
+SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential"
 
 RASPBIAN_SOFTWARE_LIST=""
 
