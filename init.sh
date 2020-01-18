@@ -2,7 +2,7 @@
 
 # Usage: bash init.sh [use-tuna-source] [install-proxy]
 
-SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential"
+SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential python3-pip"
 
 RASPBIAN_SOFTWARE_LIST=""
 
@@ -178,12 +178,11 @@ install_softwares(){
     log "Installing softwares."
     superuserdo $PACKAGE_MANAGER update
     superuserdo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
+    log "Install Ohmyzsh."
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 copy_config(){
-    log "Install Ohmyzsh."
-    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
     log "Coping config files."
     cp ./.zshrc $HOME/.zshrc -f
     cp ./.tmux.conf $HOME/.tmux.conf -f
