@@ -97,3 +97,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# docker alias
+alias dcls="docker container ls -a"
+alias dils="docker image ls"
+alias dps="docker ps -a"
+alias drun="docker run --rm"
+alias dcrm="docker container rm"
+alias dirm="docker image rm"
+alias dpull="docker pull"
