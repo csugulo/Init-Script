@@ -106,3 +106,11 @@ alias drun="docker run --rm"
 alias dcrm="docker container rm"
 alias dirm="docker image rm"
 alias dpull="docker pull"
+alias dport="docker port"
+
+# git alias
+alias gclone="git clone"
+alias gadd="git add"
+alias gcommitm="git commit -m"
+alias gcommit="git commit"
+
