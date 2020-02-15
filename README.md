@@ -11,6 +11,6 @@ bash init.sh
 # use TUNA package manager sources
 bash init.sh use-tuna-source
 
-# install and config proxy software(shadowsocks)
+# install and config proxy software(v2ray)
 bash init.sh install-proxy
 ```

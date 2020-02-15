@@ -195,18 +195,17 @@ copy_config(){
 install_proxy(){
     log "Installing proxy softwares."
     superuserdo $PACKAGE_MANAGER update -y
-    superuserdo $PACKAGE_MANAGER install proxychains shadowsocks
+    superuserdo $PACKAGE_MANAGER install proxychains
+    wget https://install.direct/go.sh
+    superuserdo bash go.sh
+    rm go.bash
     if [[ $OS == "Darwin"* ]]; then
-        brew update
-        brew install shadowsocks-libev proxychains-ng
-        superuserdo cp ./shadowsocks/client.json /usr/local/etc/shadowsocks-libev.json
-        superuserdo cp ./proxychains.conf /usr/local/etc/proxychains.conf
+        err "Unsupported OS: $OS"
+        # brew update
     else
-        superuserdo mkdir -p /etc/shadowsocks
-        superuserdo cp ./shadowsocks/client.json /etc/shadowsocks/client.json
+        superuserdo cp ./v2ray/config.json /etc/v2ray/config.json
         superuserdo cp ./proxychains.conf /etc/proxychains.conf
-        superuserdo cp ./shadowsocks/shadowsocks.service /etc/systemd/system/shadowsocks.service
-        superuserdo systemctl enable /etc/systemd/system/shadowsocks.service
+        superuserdo systemctl start v2ray
     fi
 }
 
