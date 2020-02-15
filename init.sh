@@ -198,7 +198,7 @@ install_proxy(){
     superuserdo $PACKAGE_MANAGER install proxychains
     wget https://install.direct/go.sh
     superuserdo bash go.sh
-    rm go.bash
+    rm go.sh
     if [[ $OS == "Darwin"* ]]; then
         err "Unsupported OS: $OS"
         # brew update

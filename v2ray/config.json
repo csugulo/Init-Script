@@ -1,0 +1,97 @@
+{
+    "dns": {
+      "servers": [
+        "114.114.114.114",
+        "8.8.8.8"
+      ]
+    },
+    "inbounds": [
+      {
+        "port": 1080,
+        "listen": "127.0.0.1",
+        "settings": {
+          "udp": false
+        },
+        "protocol": "socks"
+      },
+      {
+        "port": 8001,
+        "listen": "127.0.0.1",
+        "protocol": "http"
+      }
+    ],
+    "outbounds": [
+      {
+        "sendThrough": "0.0.0.0",
+        "mux": {
+          "enabled": false,
+          "concurrency": 8
+        },
+        "protocol": "vmess",
+        "settings": {
+          "vnext": [
+            {
+              "address": "aliyun-hk-1.painitch.tech",
+              "users": [
+                {
+                  "id": "74d9e25e-e072-11e9-a5fc-af8545965c41",
+                  "alterId": 64,
+                  "security": "auto",
+                  "level": 0
+                }
+              ],
+              "port": 443
+            }
+          ]
+        },
+        "tag": "aliyun-hk-1.painitch.tech",
+        "streamSettings": {
+          "wsSettings": {
+            "path": "/ray/",
+            "headers": {}
+          },
+          "quicSettings": {
+            "key": "key",
+            "security": "none",
+            "header": {
+              "type": "none"
+            }
+          },
+          "tlsSettings": {
+            "allowInsecure": false,
+            "alpn": [
+              "http/1.1"
+            ],
+            "serverName": "aliyun-hk-1.painitch.tech",
+            "allowInsecureCiphers": false
+          },
+          "httpSettings": {
+            "host": [
+              ""
+            ],
+            "path": ""
+          },
+          "kcpSettings": {
+            "header": {
+              "type": "none"
+            },
+            "mtu": 1350,
+            "congestion": false,
+            "tti": 50,
+            "uplinkCapacity": 5,
+            "writeBufferSize": 2,
+            "readBufferSize": 2,
+            "downlinkCapacity": 20
+          },
+          "tcpSettings": {
+            "header": {
+              "type": "none"
+            }
+          },
+          "security": "tls",
+          "network": "ws",
+          "sockopt": {}
+        }
+      }
+    ]
+  }
