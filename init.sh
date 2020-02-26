@@ -2,13 +2,13 @@
 
 # Usage: bash init.sh [use-tuna-source] [install-proxy]
 
-SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential python3-pip"
+DARWIN_SOFTWARE_LIST="tmux cmake wget htop"
 
-RASPBIAN_SOFTWARE_LIST=""
+RASPBIAN_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential python3-pip"
 
-UBUNTU_SOFTWARE_LIST=""
+UBUNTU_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential python3-pip"
 
-DEBIAN_SOFTWARE_LIST=""
+DEBIAN_SOFTWARE_LIST="git vim tmux zsh cmake curl wget htop build-essential python3-pip"
 
 DATE=`date "+%Y%m%d%H%M%S"`
 
@@ -168,7 +168,7 @@ use_tuna_source(){
     
     # Darwin
     elif [[ $OS == "Darwin"* ]]; then
-        err "Unsupported OS: $OS"
+        log "brew need not TUNA source"
     else
         err "Unsupported OS: $OS"
     fi
@@ -176,17 +176,34 @@ use_tuna_source(){
 
 install_softwares(){
     log "Installing softwares."
-    superuserdo $PACKAGE_MANAGER update
-    superuserdo $PACKAGE_MANAGER install $SOFTWARE_LIST -y
+    # Raspbian
+    if [[ $OS == "Raspbian"* ]]; then
+        superuserdo $PACKAGE_MANAGER update
+        superuserdo $PACKAGE_MANAGER install $RASPBIAN_SOFTWARE_LIST -y
+    # Debian
+    elif [[ $OS == "Debian"* ]]; then
+        superuserdo $PACKAGE_MANAGER update
+        superuserdo $PACKAGE_MANAGER install $DEBIAN_SOFTWARE_LIST -y
+    # Ubuntu
+    elif [[ $OS == "Ubuntu"* ]]; then
+        superuserdo $PACKAGE_MANAGER update
+        superuserdo $PACKAGE_MANAGER install $UBUNTU_SOFTWARE_LIST -y
+    # Darwin
+    elif [[ $OS == "Darwin"* ]]; then
+        $PACKAGE_MANAGER install $DARWIN_SOFTWARE_LIST
+    else
+        err "Unsupported OS: $OS"
+    fi
+
     log "Install Ohmyzsh."
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 copy_config(){
     log "Coping config files."
-    cp ./.zshrc $HOME/.zshrc -f
-    cp ./.tmux.conf $HOME/.tmux.conf -f
-    cp ./.vimrc $HOME/.vimrc -f
+    cp -f ./.zshrc $HOME/.zshrc
+    cp -f ./.tmux.conf $HOME/.tmux.conf
+    cp -f ./.vimrc $HOME/.vimrc
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
     fi
@@ -194,17 +211,19 @@ copy_config(){
 
 install_proxy(){
     log "Installing proxy softwares."
-    superuserdo $PACKAGE_MANAGER update -y
-    superuserdo $PACKAGE_MANAGER install proxychains
-    wget https://install.direct/go.sh
-    superuserdo bash go.sh
-    rm go.sh
+    
     if [[ $OS == "Darwin"* ]]; then
-        err "Unsupported OS: $OS"
-        # brew update
+        brew install proxychains-ng
+        brew cask install v2rayx
+        cp ./proxychains4.conf /usr/local/etc/proxychains.conf
     else
+        superuserdo $PACKAGE_MANAGER update -y
+        superuserdo $PACKAGE_MANAGER install proxychains4
+        wget https://install.direct/go.sh
+        superuserdo bash go.sh
+        rm go.sh
         superuserdo cp ./v2ray/config.json /etc/v2ray/config.json
-        superuserdo cp ./proxychains.conf /etc/proxychains.conf
+        superuserdo cp ./proxychains4.conf /etc/proxychains4.conf
         superuserdo systemctl start v2ray
     fi
 }
